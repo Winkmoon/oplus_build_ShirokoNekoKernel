@@ -79,8 +79,8 @@ jobs:
           #echo "正在去除 ABI 保护 & 去除 dirty 后缀..."
           #rm common/android/abi_gki_protected_exports_* || true
           #for f in common/scripts/setlocalversion; do
-            sed -i 's/ -dirty//g' "$f"
-            sed -i '$i res=$(echo "$res" | sed '\''s/-dirty//g'\'')' "$f"
+            #sed -i 's/ -dirty//g' "$f"
+            #sed -i '$i res=$(echo "$res" | sed '\''s/-dirty//g'\'')' "$f"
           done
 
       - name: 添加 SukiSU-Ultra
