@@ -230,45 +230,53 @@ jobs:
           else
             zip -r ../AnyKernel3_SukiSU_${{ env.KSUVER }}_${{ env.KERNEL_VERSION }}_A15_${{ env.KERNEL_NAME }}.zip ./*
           fi
-
+          
+      - name: 找zip
+        run: |
+          cd kernel_workspace
+          cd kernel_platform
+          for i in $(find . -name "*.zip"); do
+            cp $i ${{ github.workspace }}/kernel_workspace
+          done
+          
       - name: 上传 ZIP 工件
         uses: actions/upload-artifact@v4
         with:
           name: Kernel_ZIP_Artifacts
           path: ${{ github.workspace }}/kernel_workspace/*.zip
 
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write
-      actions: read
+  # release:
+    # needs: build
+    # runs-on: ubuntu-latest
+    # permissions:
+      # contents: write
+      # packages: write
+      # actions: read
       
-    steps:
-      - name: 下载 ZIP 工件
-        uses: actions/download-artifact@v4
-        with:
-          name: Kernel_ZIP_Artifacts
-          path: ./release_zips
+    # steps:
+      # - name: 下载 ZIP 工件
+        # uses: actions/download-artifact@v4
+        # with:
+          # name: Kernel_ZIP_Artifacts
+          # path: ./release_zips
 
-      - name: 设置环境变量
-        run: |
-          if [[ -n "${{ github.event.inputs.kernel_suffix }}" ]]; then
-            FULL_VERSION=${{ format('{0}.75-{1}', env.KERNEL_VERSION, github.event.inputs.kernel_suffix) }}
-            echo "FULL_VERSION=$FULL_VERSION" >> $GITHUB_ENV
-            export FULL_VERSION=$FULL_VERSION
-          else
-            FULL_VERSION=${{ format('{0}.75-{1}', env.KERNEL_VERSION, env.KERNEL_NAME) }}
-            echo "FULL_VERSION=$FULL_VERSION" >> $GITHUB_ENV
-            export FULL_VERSION=$FULL_VERSION
-          fi
-          TIME="$(TZ='Asia/Shanghai' date +'%y%m%d%H%M%S')"
-          TIME_FORM="$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')"
-          echo "TIME=$TIME" >> $GITHUB_ENV
-          echo "TIME_FORM=$TIME_FORM" >> $GITHUB_ENV
-          TAG_HEAD="OPPO+OPlus+Realme-A15-build"
-          echo "TAG_HEAD=$TAG_HEAD" >> $GITHUB_ENV
+      # - name: 设置环境变量
+        # run: |
+          # if [[ -n "${{ github.event.inputs.kernel_suffix }}" ]]; then
+            # FULL_VERSION=${{ format('{0}.75-{1}', env.KERNEL_VERSION, github.event.inputs.kernel_suffix) }}
+            # echo "FULL_VERSION=$FULL_VERSION" >> $GITHUB_ENV
+            # export FULL_VERSION=$FULL_VERSION
+          # else
+            # FULL_VERSION=${{ format('{0}.75-{1}', env.KERNEL_VERSION, env.KERNEL_NAME) }}
+            # echo "FULL_VERSION=$FULL_VERSION" >> $GITHUB_ENV
+            # export FULL_VERSION=$FULL_VERSION
+          # fi
+          # TIME="$(TZ='Asia/Shanghai' date +'%y%m%d%H%M%S')"
+          # TIME_FORM="$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')"
+          # echo "TIME=$TIME" >> $GITHUB_ENV
+          # echo "TIME_FORM=$TIME_FORM" >> $GITHUB_ENV
+          # TAG_HEAD="OPPO+OPlus+Realme-A15-build"
+          # echo "TAG_HEAD=$TAG_HEAD" >> $GITHUB_ENV
          
       # - name: 创建发布
         # id: create_release
