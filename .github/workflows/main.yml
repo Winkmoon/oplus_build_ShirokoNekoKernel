@@ -81,7 +81,7 @@ jobs:
           #for f in common/scripts/setlocalversion; do
             #sed -i 's/ -dirty//g' "$f"
             #sed -i '$i res=$(echo "$res" | sed '\''s/-dirty//g'\'')' "$f"
-          done
+          #done
 
       - name: 添加 SukiSU-Ultra
         id: ksu_version
