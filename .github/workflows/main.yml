@@ -234,6 +234,7 @@ jobs:
             cp $i ${{ github.workspace }}/kernel_workspace || echo "cp失败"
             cp $i  ../../
             cp $i  ../
+            echo $(realpath $i)
           done
           # cp *.zip ${{ github.workspace }}/kernel_workspace || echo "cp失败"
       - name: 找zip
