@@ -230,13 +230,13 @@ jobs:
           else
             zip -r ../AnyKernel3_SukiSU_${{ env.KSUVER }}_${{ env.KERNEL_VERSION }}_A15_${{ env.KERNEL_NAME }}.zip ./*
           fi
-          
+          cp *.zip ${{ github.workspace }}/kernel_workspace || echo "cp失败"
       - name: 找zip
         run: |
           cd kernel_workspace
           cd kernel_platform
           for i in $(find . -name "*.zip"); do
-            cp $i ${{ github.workspace }}/kernel_workspace
+            cp $i ${{ github.workspace }}/kernel_workspace || echo "cp失败"
           done
           
       - name: 上传 ZIP 工件
